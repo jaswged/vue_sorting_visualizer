@@ -1,4 +1,5 @@
-# vue_sorting_visualizer
+# Sorting Visualizer
+Vue.js recreation and extension of clementmihailescu sorting visualizer found here: https://github.com/clementmihailescu/Sorting-Visualizer-Tutorial
 
 ## Project setup
 ```
@@ -22,3 +23,4 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+

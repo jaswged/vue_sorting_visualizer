@@ -18,8 +18,20 @@
       </v-flex>
 
       <v-layout justify-center>
-        <div className="array-container"
+        <div
           v-for="(eco, i) in ecosystem"
+          :key="i"
+          :href="eco.href"
+          class="subheading mx-3"
+          target="_blank"
+        >
+          {{ eco.text }}
+        </div>
+      </v-layout>
+
+      <v-layout justify-center>
+        <div className="array-container"
+          v-for="(eco, i) in state"
           :key="i"
           :href="eco.href"
           class="subheading mx-3"
