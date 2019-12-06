@@ -35,7 +35,6 @@
 
     <v-content>
       <SortingVisualizer/>
-      <HelloWorld/>
     </v-content>
   </v-app>
 </template>
