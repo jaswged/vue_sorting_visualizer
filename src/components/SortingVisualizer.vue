@@ -4,12 +4,17 @@
       text-center
       wrap
     >
-      <v-btn target="_blank" text>
+      <v-btn target="_blank" outlined v-on:click="resetArray">
         <span class="mr-2">Reset Array</span>
       </v-btn>
-      <v-btn target="_blank" text>
+      <v-btn target="_blank" outlined>
         <span class="mr-2">Merge Sort</span>
       </v-btn>
+      <v-btn target="_blank" outlined>
+        <span class="mr-2">Sort!</span>
+      </v-btn>
+
+      <v-slider v-model="stateSize" label="Max error count" min="5" max="100" thumb-label="always" v-on:input="resetArray($event)"></v-slider>
 
       <v-flex mb-5>
         <h1 class="headline font-weight-bold mb-3">Hello world</h1>
@@ -19,7 +24,7 @@
         <div className="array-container"
           v-for="(val, kee) in state"
           :key="kee"
-          class="subheading mx-3"
+          class="subheading mx-3 array-bar"
           target="_blank"
         >
           {{ val }}
@@ -36,20 +41,7 @@ export default {
 
   data: () => ({
     state: [],
-    ecosystem: [
-      {
-        text: 'vuetify-loader',
-        href: 'https://github.com/vuetifyjs/vuetify-loader',
-      },
-      {
-        text: 'github',
-        href: 'https://github.com/vuetifyjs/vuetify',
-      },
-      {
-        text: 'awesome-vuetify',
-        href: 'https://github.com/vuetifyjs/awesome-vuetify',
-      },
-    ],
+    stateSize: 50
   }),
   methods: {
     randomIntFromInterval(min, max) {
@@ -58,8 +50,7 @@ export default {
     },
     resetArray(){
       const array = [];
-      this.randomIntFromInterval(2, 5);
-      for(let i = 0; i< 100; i++){
+      for(let i = 0; i < this.stateSize; i++){
           array.push(this.randomIntFromInterval(5,1000));
       }
       this.setState(array);
