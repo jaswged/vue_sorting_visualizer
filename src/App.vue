@@ -21,15 +21,17 @@
         />
       </div>
 
+      Sorting Visualizer
+
       <v-spacer></v-spacer>
 
       <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
+        href="https://github.com/jaswged"
         target="_blank"
         text
       >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
+        <span class="mr-2">By: Jason Gedamke</span>
+        <v-icon large color="black" class="fab fa-github"></v-icon>
       </v-btn>
     </v-app-bar>
 
