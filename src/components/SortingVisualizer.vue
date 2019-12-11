@@ -49,20 +49,7 @@
       <v-spacer/>
       <v-row>
         <v-col cols="12" justify="center">
-          <div className="array-container"
-            v-for="(val, kee) in state"
-            :key="kee"
-            class="subheading mx-3 array-bar"
-            target="_blank"
-            :style="{
-              backgroundColor: PRIMARY_COLOR,
-              height: `${val}px`,
-              width: `${screenWidth/stateSize - 2}px`,
-              margin: `1px !important`
-            }"
-          >
-          {{val}}
-          </div>
+          <Bar v-for="(val, kee) in state" :id="kee" :key="kee" :val="val" :barWidth="barWidth"/>
         </v-col>
       </v-row>
       <v-row>
@@ -74,8 +61,13 @@
 </template>
 
 <script>
+import Bar from './Bar';
+
 export default {
   name: 'SortingVisualizer',
+  components: {
+    Bar,
+  },
   data: () => ({
     state: [],
     stateSize: 25,
@@ -83,7 +75,8 @@ export default {
     SECONDARY_COLOR: 'red',
     screenWidth: screen.width * .9,
     isSorted: false,
-    ANIMATION_SPEED_MS: 75
+    ANIMATION_SPEED_MS: 75,
+    barWidth: 0
   }),
   methods: {
     randomIntFromInterval(min, max) {
@@ -92,16 +85,20 @@ export default {
     resetArray(){
       const array = [];
       for(let i = 0; i < this.stateSize; i++){
-          array.push(this.randomIntFromInterval(5,750));
+          array.push(this.randomIntFromInterval(25,750));
       }
       this.setState(array);
       this.isSorted = false;
+      this.barWidth = this.getBarWidth();
     },
     setState(array){
       this.state = array;
     },
     bubbleSort(){
       alert("Bubble sort");
+    },
+    getBarWidth(){
+      return this.screenWidth/this.stateSize - 2;
     },
     mergeSort(){
       const animations = this.getMergeSortAnimations(this.state);
@@ -193,6 +190,5 @@ export default {
 <style scoped>
   .array-bar {
       display: inline-block;
-      
   }
 </style>
