@@ -1,5 +1,5 @@
 # Sorting Visualizer
-Vue.js recreation and extension of clementmihailescu sorting visualizer found here: https://github.com/clementmihailescu/Sorting-Visualizer-Tutorial
+Vue.js recreation and extension of clementmihailescu sorting visualizer found here: https://clementmihailescu.github.io/Sorting-Visualizer/Sorting-Visualizer-Tutorial
 
 ## Project setup
 ```
