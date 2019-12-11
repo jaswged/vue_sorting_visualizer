@@ -13,11 +13,16 @@
         </v-col>
         <v-col cols="2">
           <v-btn target="_blank" outlined>
+            <span class="mr-2">Quick Sort</span>
+          </v-btn>
+        </v-col>
+        <v-col cols="2">
+          <v-btn target="_blank" outlined>
             <span class="mr-2">Bubble Sort</span>
           </v-btn>
         </v-col>
-        <v-col cols="5">
-          <v-slider v-model="stateSize" label="Max error count" min="5" max="50" v-on:input="resetArray($event)"></v-slider>
+        <v-col cols="3">
+          <v-slider v-model="stateSize" label="Array Size" min="5" max="50" v-on:input="resetArray($event)"></v-slider>
         </v-col>
         <v-col cols ="1">
           {{stateSize}}
@@ -34,8 +39,11 @@
             :style="{
               backgroundColor: PRIMARY_COLOR,
               height: `${val}px`,
+              width: `${screenWidth/stateSize - 2}px`,
+              margin: `1px !important`
             }"
           >
+          {{val}}
           </div>
         </v-col>
       </v-row>
@@ -48,8 +56,10 @@ export default {
   data: () => ({
     state: [],
     stateSize: 25,
-    PRIMARY_COLOR: 'turquoise',
-    SECONDARY_COLOR: 'red'
+    PRIMARY_COLOR: 'grey',
+    SECONDARY_COLOR: 'red',
+    screenWidth: screen.width * .9,
+    isSorted: false
   }),
   methods: {
     randomIntFromInterval(min, max) {
@@ -58,9 +68,10 @@ export default {
     resetArray(){
       const array = [];
       for(let i = 0; i < this.stateSize; i++){
-          array.push(this.randomIntFromInterval(5,1000));
+          array.push(this.randomIntFromInterval(5,800));
       }
       this.setState(array);
+      this.isSorted = false;
     },
     setState(array){
       this.state = array;
@@ -74,8 +85,7 @@ export default {
 
 <style scoped>
   .array-bar {
-      width: 3px;
       display: inline-block;
-      margin: 0 1px;
+      
   }
 </style>

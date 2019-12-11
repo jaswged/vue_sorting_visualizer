@@ -1,6 +1,6 @@
 <template>
-  <v-app dark>
-    <v-app-bar app color="primary" >
+  <v-app>
+    <v-app-bar app dark color="secondary" >
       <div class="d-flex align-center">
         <v-img
           alt="Vuetify Logo"
@@ -26,7 +26,7 @@
       <v-spacer></v-spacer>
 
       <v-btn
-        href="https://github.com/jaswged"
+        href="https://github.com/jaswged/vue_sorting_visualizer"
         target="_blank"
         text
       >
