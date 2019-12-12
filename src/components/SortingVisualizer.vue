@@ -75,6 +75,7 @@ export default {
     SECONDARY_COLOR: 'red',
     screenWidth: screen.width * .9,
     isSorted: false,
+    isSorting: false,
     ANIMATION_SPEED_MS: 75,
     barWidth: 0
   }),

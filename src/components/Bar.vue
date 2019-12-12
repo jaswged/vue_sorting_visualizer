@@ -1,8 +1,5 @@
 <template>
-
-    <div className="array-container"
-        class="subheading mx-3 array-bar"
-        target="_blank"
+    <div className="array-container" class="subheading mx-3 array-bar" target="_blank"
         :style="{
             backgroundColor: PRIMARY_COLOR,
             height: `${val}px`,
@@ -10,7 +7,7 @@
             margin: `1px !important`
         }"
     >
-        {{val}}
+        <p class="text-center">{{val}}</p> 
     </div>
 
 </template>
