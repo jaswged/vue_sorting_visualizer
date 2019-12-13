@@ -2,45 +2,45 @@
   <v-container>
       <v-row>
         <v-col cols="1">
-          <v-btn target="_blank" outlined v-on:click="resetArray">
+          <v-btn target="_blank" outlined v-on:click="resetArray" :disabled=isSorting>
             <span class="mr-2">Reset Array</span>
           </v-btn>
         </v-col>
         <v-col cols="1">
-          <v-btn target="_blank" outlined v-on:click="mergeSort">
+          <v-btn target="_blank" outlined v-on:click="mergeSort" :disabled=isSorting>
             <span class="mr-2">Merge Sort</span>
           </v-btn>
         </v-col>
         <v-col cols="1">
-          <v-btn target="_blank" outlined v-on:click="quickSort">
+          <v-btn target="_blank" outlined v-on:click="quickSort" :disabled=isSorting>
             <span class="mr-2">Quick Sort</span>
           </v-btn>
         </v-col>
         <v-col cols="1">
-          <v-btn target="_blank" outlined v-on:click="bubbleSort">
+          <v-btn target="_blank" outlined v-on:click="bubbleSort" :disabled=isSorting>
             <span class="mr-2">Bubble Sort</span>
           </v-btn>
         </v-col>
         <v-col cols="1">
-          <v-btn target="_blank" outlined v-on:click="bubbleSort">
+          <v-btn target="_blank" outlined v-on:click="bubbleSort" :disabled=isSorting>
             <span class="mr-2">Heap Sort</span>
           </v-btn>
         </v-col>
         <v-col cols="1">
-          <v-btn target="_blank" outlined v-on:click="bubbleSort">
+          <v-btn target="_blank" outlined v-on:click="bubbleSort" :disabled=isSorting>
             <span class="mr-2">Smooth Sort</span>
           </v-btn>
         </v-col>
         <v-col cols="1">
-          <v-btn target="_blank" outlined v-on:click="bubbleSort">
+          <v-btn target="_blank" outlined v-on:click="bubbleSort" :disabled=isSorting>
             <span class="mr-2">Cube Sort</span>
           </v-btn>
         </v-col>
         <v-col cols="2">
-          <v-slider v-model="ANIMATION_SPEED_MS" label="Animation Speed" min="5" max="1000"></v-slider>
+          <v-slider v-model="ANIMATION_SPEED_MS" label="Animation Speed" min="5" max="1000" :disabled=isSorting></v-slider>
         </v-col>
         <v-col cols="2">
-          <v-slider v-model="stateSize" label="Array Size" min="5" max="50" v-on:input="resetArray($event)"></v-slider>
+          <v-slider v-model="stateSize" label="Array Size" min="5" max="50" v-on:input="resetArray($event)" :disabled=isSorting></v-slider>
         </v-col>
         <v-col cols ="1">
           {{stateSize}}
@@ -76,7 +76,7 @@ export default {
     screenWidth: screen.width * .9,
     isSorted: false,
     isSorting: false,
-    ANIMATION_SPEED_MS: 75,
+    ANIMATION_SPEED_MS: 45,
     barWidth: 0
   }),
   methods: {
@@ -97,15 +97,20 @@ export default {
     },
     bubbleSort(){
       alert("Bubble sort");
+      this.isSorting = true;
     },
     getBarWidth(){
       return this.screenWidth/this.stateSize - 2;
     },
     mergeSort(){
+      this.isSorting = true;
       const animations = this.getMergeSortAnimations(this.state);
+      
+      window.console.log("Animations: "  + animations);
+      const arrayBars = document.getElementsByClassName('array-bar');
+      window.console.log(arrayBars);
 
       for (let i = 0; i < animations.length; i++) {
-        const arrayBars = document.getElementsByClassName('array-bar');
         const isColorChange = i % 3 !== 2;
         if (isColorChange) {
           const [barOneIdx, barTwoIdx] = animations[i];
@@ -120,13 +125,21 @@ export default {
           setTimeout(() => {
             const [barOneIdx, newHeight] = animations[i];
             const barOneStyle = arrayBars[barOneIdx].style;
+            //const barTwoStyle = arrayBars[barTwoIdx].style;
+            const barOneValue = arrayBars[barOneIdx].childNodes[0].innerHTML;
+            window.console.log("Current Bar value" + barOneValue);
             barOneStyle.height = `${newHeight}px`;
+            //barTwoStyle.height = `${newHeight}px`;
           }, i * this.ANIMATION_SPEED_MS);
         }
       }
+      setTimeout(() => {
+        this.isSorted = true;
+        this.isSorting = false;
+      },animations.length * this.ANIMATION_SPEED_MS);
     },
     quickSort(){
-      alert("quick sort");
+      window.console.log("quick sort");
     },
     getMergeSortAnimations(array) {
       const animations = [];
@@ -153,13 +166,13 @@ export default {
           // These are the values that we're comparing; we push them a second time to revert their color.
           animations.push([i, j]);
           if (auxiliaryArray[i] <= auxiliaryArray[j]) {
-          // We overwrite the value at index k in the original array with the value at index i in the auxiliary array.
-          animations.push([k, auxiliaryArray[i]]);
-          mainArray[k++] = auxiliaryArray[i++];
+            // We overwrite the value at index k in the original array with the value at index i in the auxiliary array.
+            animations.push([k, auxiliaryArray[i]]);
+            mainArray[k++] = auxiliaryArray[i++];
           } else {
-          // We overwrite the value at index k in the original array with the value at index j in the auxiliary array.
-          animations.push([k, auxiliaryArray[j]]);
-          mainArray[k++] = auxiliaryArray[j++];
+            // We overwrite the value at index k in the original array with the value at index j in the auxiliary array.
+            animations.push([k, auxiliaryArray[j]]);
+            mainArray[k++] = auxiliaryArray[j++];
           }
       }
       while (i <= middleIdx) {
@@ -189,7 +202,5 @@ export default {
 </script>
 
 <style scoped>
-  .array-bar {
-      display: inline-block;
-  }
+
 </style>
