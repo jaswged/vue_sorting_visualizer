@@ -91,13 +91,47 @@ export default {
       this.setState(array);
       this.isSorted = false;
       this.barWidth = this.getBarWidth();
+
+      // Set the color back to Primary
+      document.getElementsByClassName('array-bar').forEach(element => {
+        element.style.backgroundColor = this.PRIMARY_COLOR;
+      });
     },
     setState(array){
       this.state = array;
     },
     bubbleSort(){
-      alert("Bubble sort");
-      this.isSorting = true;
+      //this.isSorting = true;
+
+      const arrayBars = document.getElementsByClassName('array-bar');
+      //var arr = [].slice.call(arrayBars);
+      var length = arrayBars.length;
+      var swapped = false;
+      var animCount = 0;
+      for(var i = 0; i < length -1; i++){
+        swapped = false;
+        for(var j = 0; j < length-i-1; j++){
+          // Highlight the comparing bars
+          arrayBars[j].style.backgroundColor = this.SECONDARY_COLOR;
+          arrayBars[j+1].style.backgroundColor = this.SECONDARY_COLOR;
+          if(arrayBars[j].clientHeight > arrayBars[j+1].clientHeight){
+            animCount++;
+            window.console.log("Swap bars " + j + " and " + (j+1));
+            setTimeout(() => {this.swapBubble(arrayBars[j], arrayBars[j+1]);}, animCount * this.ANIMATION_SPEED_MS);
+            window.console.log(animCount * this.ANIMATION_SPEED_MS);
+            //this.swapBubble(arrayBars[j], arrayBars[j+1]);
+            swapped = true;
+          }
+          // Return the comparing bars to their original colors
+          //arrayBars[j].style.backgroundColor = this.PRIMARY_COLOR;
+          //arrayBars[j+1].style.backgroundColor = this.PRIMARY_COLOR;
+        }
+        if(!swapped) return;
+      }
+    },
+   swapBubble(node1, node2) {
+        node1.parentNode.replaceChild(node1, node2);
+        node1.parentNode.insertBefore(node2, node1);
     },
     getBarWidth(){
       return this.screenWidth/this.stateSize - 2;
@@ -105,11 +139,8 @@ export default {
     mergeSort(){
       this.isSorting = true;
       const animations = this.getMergeSortAnimations(this.state);
-      
-      window.console.log("Animations: "  + animations);
-      const arrayBars = document.getElementsByClassName('array-bar');
-      window.console.log(arrayBars);
 
+      const arrayBars = document.getElementsByClassName('array-bar');
       for (let i = 0; i < animations.length; i++) {
         const isColorChange = i % 3 !== 2;
         if (isColorChange) {
@@ -125,11 +156,7 @@ export default {
           setTimeout(() => {
             const [barOneIdx, newHeight] = animations[i];
             const barOneStyle = arrayBars[barOneIdx].style;
-            //const barTwoStyle = arrayBars[barTwoIdx].style;
-            const barOneValue = arrayBars[barOneIdx].childNodes[0].innerHTML;
-            window.console.log("Current Bar value" + barOneValue);
             barOneStyle.height = `${newHeight}px`;
-            //barTwoStyle.height = `${newHeight}px`;
           }, i * this.ANIMATION_SPEED_MS);
         }
       }
@@ -166,13 +193,13 @@ export default {
           // These are the values that we're comparing; we push them a second time to revert their color.
           animations.push([i, j]);
           if (auxiliaryArray[i] <= auxiliaryArray[j]) {
-            // We overwrite the value at index k in the original array with the value at index i in the auxiliary array.
-            animations.push([k, auxiliaryArray[i]]);
-            mainArray[k++] = auxiliaryArray[i++];
+          // We overwrite the value at index k in the original array with the value at index i in the auxiliary array.
+          animations.push([k, auxiliaryArray[i]]);
+          mainArray[k++] = auxiliaryArray[i++];
           } else {
-            // We overwrite the value at index k in the original array with the value at index j in the auxiliary array.
-            animations.push([k, auxiliaryArray[j]]);
-            mainArray[k++] = auxiliaryArray[j++];
+          // We overwrite the value at index k in the original array with the value at index j in the auxiliary array.
+          animations.push([k, auxiliaryArray[j]]);
+          mainArray[k++] = auxiliaryArray[j++];
           }
       }
       while (i <= middleIdx) {
