@@ -100,41 +100,62 @@ export default {
     setState(array){
       this.state = array;
     },
+    quickSort(){
+      alert("Quick sort clicked but doing anim bubble sort.");
+
+      var animations = [];
+      window.console.log(animations);
+    },
     bubbleSort(){
       //this.isSorting = true;
 
       const arrayBars = document.getElementsByClassName('array-bar');
       //var arr = [].slice.call(arrayBars);
       var length = arrayBars.length;
+
       var swapped = false;
       var animCount = 0;
+
       for(var i = 0; i < length -1; i++){
         swapped = false;
         for(var j = 0; j < length-i-1; j++){
           // Highlight the comparing bars
           arrayBars[j].style.backgroundColor = this.SECONDARY_COLOR;
           arrayBars[j+1].style.backgroundColor = this.SECONDARY_COLOR;
+
           if(arrayBars[j].clientHeight > arrayBars[j+1].clientHeight){
             animCount++;
             window.console.log("Swap bars " + j + " and " + (j+1));
-            setTimeout(() => {this.swapBubble(arrayBars[j], arrayBars[j+1]);}, animCount * this.ANIMATION_SPEED_MS);
-            window.console.log(animCount * this.ANIMATION_SPEED_MS);
-            //this.swapBubble(arrayBars[j], arrayBars[j+1]);
+            // setTimeout(() => {this.swapBubble(arrayBars[j], arrayBars[j+1]);}, animCount * this.ANIMATION_SPEED_MS);
+            window.console.log(animCount);
+            this.sleep(1000);
+            this.swapBubble(arrayBars[j], arrayBars[j+1]);
             swapped = true;
           }
           // Return the comparing bars to their original colors
-          //arrayBars[j].style.backgroundColor = this.PRIMARY_COLOR;
-          //arrayBars[j+1].style.backgroundColor = this.PRIMARY_COLOR;
+          animCount++;
+          // setTimeout(() => {
+          //   arrayBars[j].style.backgroundColor = this.PRIMARY_COLOR;
+          //   arrayBars[j+1].style.backgroundColor = this.PRIMARY_COLOR;
+          // },animCount * this.ANIMATION_SPEED_MS);
         }
-        if(!swapped) return;
+        if(!swapped) break;
       }
     },
    swapBubble(node1, node2) {
+        // Jquery $("#div1").insertAfter("#div2");
         node1.parentNode.replaceChild(node1, node2);
         node1.parentNode.insertBefore(node2, node1);
     },
     getBarWidth(){
       return this.screenWidth/this.stateSize - 2;
+    },
+    sleep(milliseconds) {
+      const date = Date.now();
+      let currentDate = null;
+      do {
+        currentDate = Date.now();
+      } while (currentDate - date < milliseconds);
     },
     mergeSort(){
       this.isSorting = true;
@@ -164,9 +185,6 @@ export default {
         this.isSorted = true;
         this.isSorting = false;
       },animations.length * this.ANIMATION_SPEED_MS);
-    },
-    quickSort(){
-      window.console.log("quick sort");
     },
     getMergeSortAnimations(array) {
       const animations = [];
