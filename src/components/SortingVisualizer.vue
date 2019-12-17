@@ -1,37 +1,37 @@
 <template>
   <v-container>
       <v-row>
-        <v-col cols="1">
+        <v-col cols="2">
           <v-btn target="_blank" outlined v-on:click="resetArray" :disabled=isSorting>
             <span class="mr-2">Reset Array</span>
           </v-btn>
         </v-col>
-        <v-col cols="1">
+        <v-col cols="2">
           <v-btn target="_blank" outlined v-on:click="mergeSort" :disabled=isSorting>
             <span class="mr-2">Merge Sort</span>
           </v-btn>
         </v-col>
-        <v-col cols="1">
+        <v-col cols="2">
           <v-btn target="_blank" outlined v-on:click="quickSort" :disabled=isSorting>
             <span class="mr-2">Quick Sort</span>
           </v-btn>
         </v-col>
-        <v-col cols="1">
+        <v-col cols="2">
           <v-btn target="_blank" outlined v-on:click="bubbleSort" :disabled=isSorting>
             <span class="mr-2">Bubble Sort</span>
           </v-btn>
         </v-col>
-        <v-col cols="1">
+        <v-col cols="2">
           <v-btn target="_blank" outlined v-on:click="bubbleSort" :disabled=isSorting>
             <span class="mr-2">Heap Sort</span>
           </v-btn>
         </v-col>
-        <v-col cols="1">
+        <v-col cols="2">
           <v-btn target="_blank" outlined v-on:click="bubbleSort" :disabled=isSorting>
             <span class="mr-2">Smooth Sort</span>
           </v-btn>
         </v-col>
-        <v-col cols="1">
+        <v-col cols="2">
           <v-btn target="_blank" outlined v-on:click="bubbleSort" :disabled=isSorting>
             <span class="mr-2">Cube Sort</span>
           </v-btn>
@@ -104,6 +104,9 @@ export default {
       alert("Quick sort clicked but doing anim bubble sort.");
 
       var animations = [];
+      
+      
+      
       window.console.log(animations);
     },
     bubbleSort(){
@@ -128,7 +131,6 @@ export default {
             window.console.log("Swap bars " + j + " and " + (j+1));
             // setTimeout(() => {this.swapBubble(arrayBars[j], arrayBars[j+1]);}, animCount * this.ANIMATION_SPEED_MS);
             window.console.log(animCount);
-            this.sleep(1000);
             this.swapBubble(arrayBars[j], arrayBars[j+1]);
             swapped = true;
           }
