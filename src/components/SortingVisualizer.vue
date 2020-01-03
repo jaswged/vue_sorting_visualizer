@@ -1,54 +1,54 @@
 <template>
   <v-container>
       <v-row>
-        <v-col cols="2">
+        <v-col lg="2" xs="12" sm="12" md="4">
           <v-btn target="_blank" outlined v-on:click="resetArray" :disabled=isSorting>
             <span class="mr-2">Reset Array</span>
           </v-btn>
         </v-col>
-        <v-col cols="2">
+        <v-col lg="2" xs="12" sm="12" md="4">
           <v-btn target="_blank" outlined v-on:click="mergeSort" :disabled=isSorting>
             <span class="mr-2">Merge Sort</span>
           </v-btn>
         </v-col>
-        <v-col cols="2">
+        <v-col lg="2" xs="12" sm="12" md="4">
           <v-btn target="_blank" outlined v-on:click="quickSort" :disabled=isSorting>
             <span class="mr-2">Quick Sort</span>
           </v-btn>
         </v-col>
-        <v-col cols="2">
+        <v-col lg="2" xs="12" sm="12" md="4">
           <v-btn target="_blank" outlined v-on:click="bubbleSort" :disabled=isSorting>
             <span class="mr-2">Bubble Sort</span>
           </v-btn>
         </v-col>
-        <v-col cols="2">
+        <v-col lg="2" xs="12" sm="6" md="4">
           <v-btn target="_blank" outlined v-on:click="bubbleSort" :disabled=isSorting>
             <span class="mr-2">Heap Sort</span>
           </v-btn>
         </v-col>
-        <v-col cols="2">
+        <v-col lg="2" xs="12" sm="6" md="4">
           <v-btn target="_blank" outlined v-on:click="bubbleSort" :disabled=isSorting>
             <span class="mr-2">Smooth Sort</span>
           </v-btn>
         </v-col>
-        <v-col cols="2">
+        <v-col lg="2" xs="12" sm="6" md="4">
           <v-btn target="_blank" outlined v-on:click="bubbleSort" :disabled=isSorting>
             <span class="mr-2">Cube Sort</span>
           </v-btn>
         </v-col>
-        <v-col cols="2">
+        <v-col lg="2" xs="12" sm="6" md="4">
           <v-slider v-model="ANIMATION_SPEED_MS" label="Animation Speed" min="5" max="1000" :disabled=isSorting></v-slider>
         </v-col>
-        <v-col cols="2">
+        <v-col lg="2" xs="12" sm="6" md="4">
           <v-slider v-model="stateSize" label="Array Size" min="5" max="50" v-on:input="resetArray($event)" :disabled=isSorting></v-slider>
         </v-col>
-        <v-col cols ="1">
+        <v-col cols ="1" lg="1" xs="12" sm="6" md="4">
           {{stateSize}}
         </v-col>
       </v-row>
       <v-spacer/>
       <v-row>
-        <v-col cols="12" justify="center">
+        <v-col cols="12" justify="center" id="barContainer">
           <Bar v-for="(val, kee) in state" :id="kee" :key="kee" :val="val" :barWidth="barWidth"/>
         </v-col>
       </v-row>
@@ -73,7 +73,8 @@ export default {
     stateSize: 25,
     PRIMARY_COLOR: 'grey',
     SECONDARY_COLOR: 'red',
-    screenWidth: screen.width * .9,
+    clientWidth: document.body.clientWidth * .9,
+    clientHeight: document.body.clientHeight - 100,
     isSorted: false,
     isSorting: false,
     ANIMATION_SPEED_MS: 45,
@@ -84,6 +85,7 @@ export default {
       return Math.floor(Math.random() * (max - min + 1) + min);
     },
     resetArray(){
+      // Header is 50px tall.
       const array = [];
       for(let i = 0; i < this.stateSize; i++){
           array.push(this.randomIntFromInterval(25,750));
@@ -101,19 +103,57 @@ export default {
       this.state = array;
     },
     quickSort(){
-      alert("Quick sort clicked but doing anim bubble sort.");
-
-      var animations = [];
+      //var barContainer = document.getElementById("barContainer");
+      var header = document.getElementById("header");
+      window.console.log(header.clientHeight);
+      window.console.log(this.clientHeight);
       
-      
-      
+      const animations = this.getBubbleSortAnimations();
       window.console.log(animations);
+// TODO
+      const arrayBars = document.getElementsByClassName('array-bar');
+      for (let i = 0; i < animations.length; i++) {
+        var [barOneIdx, barTwoIdx] = animations[i];
+        
+        // Change the colors of those being compared
+        setTimeout(() => {
+          arrayBars[barOneIdx].style.backgroundColor = this.SECONDARY_COLOR;
+          arrayBars[barTwoIdx].style.backgroundColor = this.SECONDARY_COLOR;
+        }, i * this.ANIMATION_SPEED_MS);
+        i++;
+
+        // Swap the elements if not -1
+        [barOneIdx, barTwoIdx] = animations[i];
+        if(barOneIdx != -1){
+          setTimeout(() => {
+            window.console.log("Swap these two bars: " + barOneIdx + " : " + barTwoIdx);
+            var oneHeight = arrayBars[barOneIdx].style.height;
+            var twoHeight = arrayBars[barOneIdx].style.height;
+            arrayBars[barOneIdx].style.height = `${twoHeight}px`;
+            arrayBars[barTwoIdx].style.height = `${oneHeight}px`;
+          }, i * this.ANIMATION_SPEED_MS);
+        }
+        i++;
+
+        // Reset the colors of those that were compared
+        [barOneIdx, barTwoIdx] = animations[i];
+        // Change the colors of those being compared
+        arrayBars[barOneIdx].style.color = this.PRIMARY_COLOR;
+        arrayBars[barTwoIdx].style.color = this.PRIMARY_COLOR;
+      }
+
+      // Set timeout for setting sorted true and done sorting
+      setTimeout(() => {
+        this.isSorted = true;
+        this.isSorting = false;
+      },animations.length * this.ANIMATION_SPEED_MS);
+
+
     },
     bubbleSort(){
       //this.isSorting = true;
 
       const arrayBars = document.getElementsByClassName('array-bar');
-      //var arr = [].slice.call(arrayBars);
       var length = arrayBars.length;
 
       var swapped = false;
@@ -129,7 +169,7 @@ export default {
           if(arrayBars[j].clientHeight > arrayBars[j+1].clientHeight){
             animCount++;
             window.console.log("Swap bars " + j + " and " + (j+1));
-            // setTimeout(() => {this.swapBubble(arrayBars[j], arrayBars[j+1]);}, animCount * this.ANIMATION_SPEED_MS);
+            //setTimeout(() => {this.swapBubble(arrayBars[j], arrayBars[j+1]);}, animCount * this.ANIMATION_SPEED_MS);
             window.console.log(animCount);
             this.swapBubble(arrayBars[j], arrayBars[j+1]);
             swapped = true;
@@ -144,20 +184,52 @@ export default {
         if(!swapped) break;
       }
     },
+    getBubbleSortAnimations(){
+      var animations = [];
+
+      const arrayBars = document.getElementsByClassName('array-bar');
+      var length = arrayBars.length;
+      var swapped = false;
+
+      for(var i = 0; i < length -1; i++){
+        swapped = false;
+        for(var j = 0; j < length-i-1; j++){
+          // Highlight the comparing bars
+          //arrayBars[j].style.backgroundColor = this.SECONDARY_COLOR;
+          //arrayBars[j+1].style.backgroundColor = this.SECONDARY_COLOR;
+          animations.push([j, j+1]);
+
+          if(arrayBars[j].clientHeight > arrayBars[j+1].clientHeight){
+
+            //window.console.log("Swap bars " + j + " and " + (j+1));
+            //setTimeout(() => {this.swapBubble(arrayBars[j], arrayBars[j+1]);}, animCount * this.ANIMATION_SPEED_MS);
+            //this.swapBubble(arrayBars[j], arrayBars[j+1]);
+            swapped = true;
+            animations.push([j, j+1]);
+          }else{
+            animations.push([-1, -1]);
+          }
+          // Return the comparing bars to their original colors
+
+          // setTimeout(() => {
+          //   arrayBars[j].style.backgroundColor = this.PRIMARY_COLOR;
+          //   arrayBars[j+1].style.backgroundColor = this.PRIMARY_COLOR;
+          // },animCount * this.ANIMATION_SPEED_MS);
+          // push animation again to reset the color
+          animations.push([j, j+1]);
+        }
+        if(!swapped) break;
+      }
+
+      return animations;
+    },
    swapBubble(node1, node2) {
         // Jquery $("#div1").insertAfter("#div2");
         node1.parentNode.replaceChild(node1, node2);
         node1.parentNode.insertBefore(node2, node1);
     },
     getBarWidth(){
-      return this.screenWidth/this.stateSize - 2;
-    },
-    sleep(milliseconds) {
-      const date = Date.now();
-      let currentDate = null;
-      do {
-        currentDate = Date.now();
-      } while (currentDate - date < milliseconds);
+      return this.clientWidth/this.stateSize - 2;
     },
     mergeSort(){
       this.isSorting = true;
