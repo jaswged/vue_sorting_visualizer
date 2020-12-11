@@ -21,7 +21,7 @@
             <span class="mr-2">Bubble Sort</span>
           </v-btn>
         </v-col>
-        <v-col lg="2" xs="12" sm="6" md="4">
+        <!--<v-col lg="2" xs="12" sm="6" md="4">
           <v-btn target="_blank" outlined v-on:click="bubbleSort" :disabled=isSorting>
             <span class="mr-2">Heap Sort</span>
           </v-btn>
@@ -35,7 +35,7 @@
           <v-btn target="_blank" outlined v-on:click="bubbleSort" :disabled=isSorting>
             <span class="mr-2">Cube Sort</span>
           </v-btn>
-        </v-col>
+        </v-col>-->
         <v-col lg="2" xs="12" sm="6" md="4">
           <v-slider v-model="ANIMATION_SPEED_MS" label="Animation Speed" min="5" max="1000" :disabled=isSorting></v-slider>
         </v-col>
